@@ -21,7 +21,7 @@ import { css } from "glamor";
 
 var chance = new Chance();
 
-function Chat() {
+function Chat({ updateSideNav }) {
   const { chat, setNewChat, setNewData } = useAuth();
 
   const [newMessage, setNewMessage] = useState("");
@@ -67,6 +67,7 @@ function Chat() {
     // setChatThread(tempChat[0].transcript.push(newTranscript))
     // setNewChat(newTranscript);
     setNewData(id, newTranscript);
+    updateSideNav();
     setNewMessage("");
   };
   if (chat.length != 0) {

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Link,
@@ -7,7 +7,7 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import { AuthProvider } from "./hooks/useAuth";
+
 import useAuth from "./hooks/useAuth";
 import { RequireAuth } from "./RequiredAuth";
 import Login from "./pages/Login";
@@ -18,50 +18,56 @@ import { Box, Flex } from "rebass";
 import { useWindowHeight } from "@react-hook/window-size";
 
 function App() {
+  const { fetchData } = useAuth();
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    fetchData();
+  }, []);
   const height = useWindowHeight();
-
+  const updateSideNav = () => {
+    console.log("subtmitting");
+    setCount(count + 1);
+  };
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <div className="App">
-          {/* <Nav /> */}
+    <BrowserRouter>
+      <div className="App">
+        {/* <Nav /> */}
 
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <RequireAuth>
-                  <Flex height={height}>
-                    <Box width={"30%"}>
-                      <SideNav />
-                    </Box>
-                    <Box width={"70%"} sx={{ bg: "#F2F2F2" }}>
-                      <Chat />
-                    </Box>
-                  </Flex>
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/chat/*"
-              element={
-                <RequireAuth>
-                  <Flex height={height}>
-                    <Box width={"30%"}>
-                      <SideNav />
-                    </Box>
-                    <Box width={"70%"} sx={{ bg: "#F2F2F2" }}>
-                      <Chat />
-                    </Box>
-                  </Flex>
-                </RequireAuth>
-              }
-            />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </AuthProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Flex height={height}>
+                  <Box width={"30%"}>
+                    <SideNav count={count} />
+                  </Box>
+                  <Box width={"70%"} sx={{ bg: "#F2F2F2" }}>
+                    <Chat updateSideNav={updateSideNav} />
+                  </Box>
+                </Flex>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/chat/*"
+            element={
+              <RequireAuth>
+                <Flex height={height}>
+                  <Box width={"30%"}>
+                    <SideNav count={count} />
+                  </Box>
+                  <Box width={"70%"} sx={{ bg: "#F2F2F2" }}>
+                    <Chat updateSideNav={updateSideNav} />
+                  </Box>
+                </Flex>
+              </RequireAuth>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

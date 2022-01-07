@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Heading, Image, Text, Flex, Button } from "rebass";
+import { Box, Image, Text, Flex, Button } from "rebass";
 import useAuth from "../hooks/useAuth";
 import Chance from "chance";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -8,12 +8,8 @@ var chance = new Chance();
 
 function SideNav() {
   const navigate = useNavigate();
-  const { authed, data, chat, logout, getChat, fetchData } = useAuth();
+  const { authed, data, logout, getChat } = useAuth();
   const location = useLocation();
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleLogout = () => {
     logout();
