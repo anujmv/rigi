@@ -1,6 +1,8 @@
 # rigichat
 Chat Application Assesment by Anooj Mathew Varghese
 
+Hosted here https://rigiclub.web.app/
+
 Assessment details
 
 Task - Create a chat application on React. 
